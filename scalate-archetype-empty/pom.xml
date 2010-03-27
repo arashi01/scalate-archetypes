@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <parent>
+      <groupId>org.fusesource.scalate</groupId>
+      <artifactId>scalate-project</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.fusesource.scalate.tooling</groupId>
+  <artifactId>scalate-archetype-empty</artifactId>
+  <name>Scalate :: Archetype :: Empty</name>
+  <description>An archetype which creates an empty Scalate web application</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <replace casesensitive="true" file="${project.build.directory}/classes/archetype-resources/pom.xml">
+                  <replacefilter token="$JERSEY_VERSION_REPLACEME$" value="${jersey-version}" /> 
+                  <replacefilter token="$JETTY_VERSION_REPLACEME$" value="${jetty-version}" /> 
+                  <replacefilter token="$JETTY_PLUGIN_VERSION_REPLACEME$" value="${jetty-plugin-version}" /> 
+                  <replacefilter token="$LOGBACK_VERSION_REPLACEME$" value="${logback-version}" /> 
+                  <replacefilter token="$SCALA_VERSION_REPLACEME$" value="${scala-version}" />
+                  <replacefilter token="$SCALA_PLUGIN_VERSION_REPLACEME$" value="${scala-plugin-version}" />
+                  <replacefilter token="$SCALATE_VERSION_REPLACEME$" value="${project.version}" />
+                  <replacefilter token="$SERVLET_API_VERSION_REPLACEME$" value="${servlet-api-version}" /> 
+                  <replacefilter token="$SUREFIRE_VERSION_REPLACEME$" value="${surefire-version}" /> 
+                </replace>
+                
+                <mkdir dir="${project.build.directory}/classes/archetype-resources/src/main/webapp/css"/>
+                <mkdir dir="${project.build.directory}/classes/archetype-resources/src/main/webapp/WEB-INF/scalate/layouts"/>
+
+                <copy todir="${project.build.directory}/classes/archetype-resources/src/main/webapp/css" 
+                  file="../../scalate-war/src/main/webapp/css/style.css" />
+                <copy todir="${project.build.directory}/classes/archetype-resources/src/main/webapp/WEB-INF" 
+                  file="../../scalate-war/src/main/webapp/WEB-INF/web.xml" />
+                <copy todir="${project.build.directory}/classes/archetype-resources/src/main/webapp/WEB-INF/scalate/layouts" 
+                  file="../../scalate-war/src/main/webapp/WEB-INF/scalate/layouts/default.scaml" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-invoker-plugin</artifactId>
+        <configuration>
+          <debug>true</debug>
+          <projectsDirectory>src/it</projectsDirectory>
+          <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+          <pomIncludes>
+            <pomInclude>pom.xml</pomInclude>
+          </pomIncludes>
+          <preBuildHookScript>setup</preBuildHookScript>
+          <postBuildHookScript>verify</postBuildHookScript>
+          <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+          <settingsFile>../settings.xml</settingsFile>
+          <goals>
+            <goal>archetype:create -DgroupId=foo -DartifactId=bar -DarchetypeGroupId=org.fusesource.scalate -DarchetypeArtifactId=scalate-archetype-empty -DarchetypeVersion=1.0-SNAPSHOT</goal>
+            <goal>install</goal>
+          </goals>
+          <properties>
+<!--
+            <restygwt-version>${pom.version}</restygwt-version>
+-->
+          </properties>
+        </configuration>
+        <executions>
+          <execution>
+            <id>integration-test</id>
+            <goals>
+              <goal>install</goal>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
+</project>
