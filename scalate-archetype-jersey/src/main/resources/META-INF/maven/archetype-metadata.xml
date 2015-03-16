@@ -19,6 +19,17 @@
 
 -->
 <archetype-descriptor name="scalate-archetype-jersey">
+
+  <!-- properties required for project generation -->
+  <requiredProperties>
+    <requiredProperty key="scalaBinaryVersion">
+      <defaultValue>2.11</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="scalaPatchVersion">
+      <defaultValue>5</defaultValue>
+    </requiredProperty>
+  </requiredProperties>
+
   <fileSets>
 
     <!-- place main sources -->
@@ -62,13 +73,6 @@
       <includes>
         <include>*.scala</include>
         <include>**/*.scala</include>
-      </includes>
-    </fileSet>
-    <!-- sbt build -->
-    <fileSet encoding="UTF-8" filtered="true" packaged="false">
-      <directory>project</directory>
-      <includes>
-        <include>**/*</include>
       </includes>
     </fileSet>
   </fileSets>

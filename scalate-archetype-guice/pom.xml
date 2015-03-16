@@ -23,25 +23,25 @@
 
   <parent>
     <groupId>org.scalatra.scalate.tooling</groupId>
-    <artifactId>archetypes_2.10</artifactId>
+    <artifactId>archetypes</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>scalate-archetype-guice_2.10</artifactId>
+  <artifactId>scalate-archetype-guice</artifactId>
   <packaging>maven-archetype</packaging>
   
   <name>${project.artifactId}</name>
   <description>An archetype which creates an empty Scalate Guice web application</description>
 
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.archetype</groupId>
-        <artifactId>archetype-packaging</artifactId>
-        <version>${archetype-plugin-version}</version>
-      </extension>
-    </extensions>
+  <dependencies>
+    <dependency>
+      <groupId>org.scalatra.scalate</groupId>
+      <artifactId>scalate-war_${version.scala.binary}</artifactId>
+      <type>war</type>
+    </dependency>
+  </dependencies>
 
+  <build>
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -71,29 +71,50 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-archetype-plugin</artifactId>
-        <version>2.0</version>
-        <extensions>true</extensions>
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.scalatra.scalate</groupId>
+                  <artifactId>scalate-war_${version.scala.binary}</artifactId>
+                  <version>${project.version}</version>
+                  <type>war</type>
+                  <includes>**</includes>
+                  <excludes>WEB-INF/web.xml,index.*,WEB-INF/_scalate/,META-INF/,WEB-INF/lib/,**/*.class,**/*.jar</excludes>
+                  <outputDirectory>${project.build.directory}/scalate-war</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-resources</phase>
             <configuration>
               <tasks>
-
-                <!--
-                    TODO if ever the maven archetype plugin could actually include resources
-                    from elsewhere we could remove this crap
-                 -->
-
-                <copy todir="${basedir}/target/resources/archetype-resources/src/main/webapp" overwrite="false" verbose="true">
-                  <fileset dir="${basedir}/../../scalate-war/src/main/webapp">
-                    <exclude name="WEB-INF/web.xml" />
-                    <exclude name="index.*" />
-                    <exclude name="WEB-INF/_scalate" />
-                    <exclude name="WEB-INF/_scalate/**" />
+                <copy todir="${build.directory}/resources/archetype-resources/src/main/webapp" overwrite="false"
+                      verbose="true">
+                  <fileset dir="${basedir}/../webapp">
+                    <exclude name="WEB-INF/web.xml"/>
+                    <exclude name="index.*"/>
+                    <exclude name="WEB-INF/_scalate"/>
+                    <exclude name="WEB-INF/_scalate/**"/>
                   </fileset>
                 </copy>
               </tasks>
@@ -106,8 +127,8 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
         <configuration>
           <filesets>
             <fileset>

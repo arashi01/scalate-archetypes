@@ -22,25 +22,17 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate.tooling</groupId>
-    <artifactId>archetypes_2.10</artifactId>
+    <artifactId>archetypes</artifactId>
     <version>1.7.1-SNAPSHOT</version>
   </parent>
 
-  <artifactId>scalate-archetype-jersey_2.10</artifactId>
+  <artifactId>scalate-archetype-jersey</artifactId>
   <packaging>maven-archetype</packaging>
 
   <name>${project.artifactId}</name>
   <description>An archetype which creates an empty Scalate web application</description>
 
   <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.archetype</groupId>
-        <artifactId>archetype-packaging</artifactId>
-        <version>${archetype-plugin-version}</version>
-      </extension>
-    </extensions>
-
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -67,33 +59,27 @@
     </resources>
 
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-archetype-plugin</artifactId>
-        <version>2.0</version>
-        <extensions>true</extensions>
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <phase>generate-resources</phase>
             <configuration>
               <tasks>
-
-                <!--
-                    TODO if ever the maven archetype plugin could actually include resources
-                    from elsewhere we could remove this crap
-                 -->
-
-                <copy todir="${basedir}/target/resources/archetype-resources/src/main/webapp" overwrite="false" verbose="true">
-                  <fileset dir="${basedir}/../../scalate-war/src/main/webapp">
+                <copy todir="${build.directory}/resources/archetype-resources/src/main/webapp" overwrite="false" verbose="true">
+                  <fileset dir="${basedir}/../webapp">
                     <exclude name="WEB-INF/web.xml" />
-                    <!--
-                    <exclude name="index.*" />
-                    -->
                     <exclude name="WEB-INF/_scalate" />
                     <exclude name="WEB-INF/_scalate/**" />
                   </fileset>
@@ -108,27 +94,9 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-clean-plugin</artifactId>
-        <version>2.4.1</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>src/main/resources/archetype-resources/src/main/webapp</directory>
-              <includes>
-                <include>**/*</include>
-              </includes>
-              <excludes>
-                <exclude>.gitignore</exclude>
-                <exclude>WEB-INF/.gitignore</exclude>
-                <exclude>WEB-INF/web.xml</exclude>
-                <exclude>index.scaml</exclude>
-              </excludes>
-              <followSymlinks>false</followSymlinks>
-            </fileset>
-          </filesets>
-        </configuration>
       </plugin>
-
     </plugins>
 
   </build>

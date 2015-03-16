@@ -22,8 +22,8 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.scalatra.scalate.tooling</groupId>
-    <artifactId>archetypes_2.10</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <artifactId>archetypes</artifactId>
+    <version>1.7.1-SNAPSHOT</version>
   </parent>
 
   <name>${project.artifactId}</name>
@@ -38,27 +38,29 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-embedder</artifactId>
-      <version>3.0-alpha-7</version>
+      <version>3.0.4</version>
     </dependency>
     <dependency>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-http</artifactId>
-        <version>1.0-beta-6</version>
+      <groupId>org.apache.maven.wagon</groupId>
+      <artifactId>wagon-http</artifactId>
+      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
+      <version>4.12</version>
     </dependency>
 
 
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-core_2.10</artifactId>
+      <artifactId>scalate-core_${version.scala.binary}</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
+      <version>1.1.2</version>
       <scope>runtime</scope>
       <optional>true</optional>
     </dependency>
@@ -83,7 +85,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-archetype-plugin</artifactId>
-        <version>${archetype-plugin-version}</version>
+        <version>${version.plugin.maven.archetype}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

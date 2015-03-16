@@ -190,7 +190,7 @@ class ArchetypeTestSupport {
     assert(builder != null)
 
     val buildingRequest = new DefaultProjectBuildingRequest
-    buildingRequest.setOffline(false)
+    //buildingRequest.setOffline(false)
 
     var rsys = container.lookup(classOf[RepositorySystem])
     buildingRequest.setLocalRepository(rsys.createDefaultLocalRepository)

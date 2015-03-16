@@ -30,145 +30,71 @@
   <description>A static web site generated using Scalate</description>
 
   <properties>
-    <scalate-version>${project.version}</scalate-version>
-    <scala-version>${scala-version}</scala-version>
-    <scala-plugin-version>${scala-plugin-version}</scala-plugin-version>
-    <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
+
+    <!-- version info -->
+    <version.scala.binary>\${scalaBinaryVersion}</version.scala.binary>
+    <version.scala>\${version.scala.binary}.\${scalaPatchVersion}</version.scala>
+    <version.scalate>${version.scalate}</version.scalate>
+    <version.scalamd>1.6.1</version.scalamd>
+
+    <!-- plugins -->
+    <version.plugin.scala>${version.plugin.scala}</version.plugin.scala>
+    <version.plugin.scalate>${version.plugin.scalate}</version.plugin.scalate>
+
+    <!-- ide settings -->
+    <netbeans.hint.deploy.server>Tomcat70</netbeans.hint.deploy.server>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
-      <version>\${scala-version}</version>
+      <version>\${version.scala}</version>
     </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-compiler</artifactId>
-      <version>\${scala-version}</version>
+      <version>\${version.scala}</version>
     </dependency>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-wikitext_2.10</artifactId>
-      <version>\${scalate-version}</version>
+      <artifactId>scalate-wikitext_\${version.scala.binary}</artifactId>
+      <version>\${version.scalate}</version>
     </dependency>
     <dependency>
       <groupId>org.scalatra.scalate</groupId>
-      <artifactId>scalate-page_2.10</artifactId>
-      <version>\${scalate-version}</version>
+      <artifactId>scalate-page_\${version.scala.binary}</artifactId>
+      <version>\${version.scalate}</version>
     </dependency>
     <dependency>
-      <groupId>${scalamd.groupId}</groupId>
-      <artifactId>scalamd_2.10</artifactId>
-      <version>${scalamd-version}</version>
+      <groupId>org.scalatra.scalate</groupId>
+      <artifactId>scalamd_\${version.scala.binary}</artifactId>
+      <version>\${version.scalamd}</version>
     </dependency>
     
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
-      <version>${servlet-api-version}</version>
+      <version>${version.servletApi}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-nop</artifactId>
-      <version>${slf4j-version}</version>
+      <version>${version.slf4j}</version>
     </dependency>    
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>repo1.maven</id>
-      <name>Maven Central Repo</name>
-      <url>http://repo1.maven.org/maven2/</url>
-    </repository>
-    <repository>
-      <id>fusesource.m2</id>
-      <name>FuseSource Community Release Repository</name>
-      <url>http://repo.fusesource.com/nexus/content/repositories/public</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-    </repository>
-    <repository>
-      <id>fusesource.m2-snapshot</id>
-      <name>FuseSource Community Snapshot Repository</name>
-      <url>http://repo.fusesource.com/nexus/content/repositories/snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-    </repository>
-
-    <repository>
-      <id>java.net.m2</id>
-      <name>java.net Maven 2 Repo</name>
-      <url>http://download.java.net/maven/2</url>
-    </repository>
-
-    <repository>
-      <id>glassfish-repo-archive</id>
-      <name>Nexus repository collection for Glassfish</name>
-      <url>http://maven.glassfish.org/content/groups/glassfish</url>
-      <snapshots>
-        <updatePolicy>never</updatePolicy>
-      </snapshots>
-    </repository>
-
-    <repository>
-      <id>scala</id>
-      <name>Scala Tools</name>
-      <url>http://scala-tools.org/repo-releases</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>snapshots.scala-tools.org</id>
-      <name>Scala-Tools Maven2 Snapshot Repository</name>
-      <url>http://scala-tools.org/repo-snapshots</url>
-      <snapshots>
-        <enabled>true</enabled>
-        <!--updatePolicy>never</updatePolicy-->
-        <checksumPolicy>fail</checksumPolicy>
-      </snapshots>
-      <releases>
-        <enabled>true</enabled>
-        <!--updatePolicy>never</updatePolicy-->
-        <checksumPolicy>fail</checksumPolicy>
-      </releases>
-    </repository>
-    <repository>
-      <id>apache.snapshots</id>
-      <name>Apache Development Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots</url>
-      <releases>
-        <enabled>false</enabled>
-      </releases>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
 
   <build>
 
     <sourceDirectory>\${basedir}/ext</sourceDirectory>
 
     <plugins>
-      
+
       <plugin>
         <groupId>net.alchim31.maven</groupId>
         <artifactId>scala-maven-plugin</artifactId>
-        <version>\${scala-plugin-version}</version>
+        <version>\${version.plugin.scala}</version>
         <executions>
           <execution>
             <goals>
@@ -178,6 +104,7 @@
           </execution>
         </executions>
         <configuration>
+          <mainSourceDir>${basedir}/ext</mainSourceDir>
           <jvmArgs>
             <jvmArg>-Xmx1024m</jvmArg>
           </jvmArgs>
@@ -185,20 +112,24 @@
             <!-- arg>-unchecked</arg -->
             <arg>-deprecation</arg>
           </args>
-          <scala-version>\${scala-version}</scala-version>
+          <scalaVersion>\${version.scala}</scalaVersion>
           <recompileMode>incremental</recompileMode>
         </configuration>
       </plugin>
 
       <plugin>
         <groupId>org.scalatra.scalate</groupId>
-        <artifactId>maven-scalate-plugin_2.10</artifactId>
-        <version>${project.version}</version>
+        <artifactId>scalate-maven-plugin_\${version.scala.binary}</artifactId>
+        <version>\${version.plugin.scalate}</version>
         <executions>
           <execution>
             <goals>
               <goal>sitegen</goal>
             </goals>
+            <phase>compile</phase>
+            <configuration>
+              <webappDirectory>\${basedir}/src</webappDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -206,21 +137,20 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
-        <version>2.0.2</version>
         <configuration>
           <warSourceDirectory>\${basedir}/src</warSourceDirectory>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
         </configuration>
       </plugin>
       
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <version>7.2.1.v20101111</version>
+        <version>${version.plugin.jetty}</version>
         <configuration>
           <webAppConfig>
             <contextPath>/</contextPath>
             <resourceBase>\${basedir}/src</resourceBase>
-            <unpackOverlays>false</unpackOverlays>
           </webAppConfig>
           <webAppSourceDirectory>\${basedir}/src</webAppSourceDirectory>
           <systemProperties>
@@ -244,7 +174,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
-        <version>${tomcat-plugin-version}</version>
+        <version>${version.plugin.tomcat}</version>
         <configuration>
           <path>/</path>
           <ignorePackaging>true</ignorePackaging>
@@ -261,4 +191,3 @@
     </plugins>
   </build>
 </project>
-

@@ -19,16 +19,24 @@
 
 -->
 <archetype-descriptor name="scalate-archetype-sitegen">
+  <!-- properties required for project generation -->
   <requiredProperties>
+    <requiredProperty key="scalaBinaryVersion">
+      <defaultValue>2.11</defaultValue>
+    </requiredProperty>
+    <requiredProperty key="scalaPatchVersion">
+      <defaultValue>5</defaultValue>
+    </requiredProperty>
   </requiredProperties>
-  <fileSets>    
 
-    <fileSet encoding="UTF-8" filtered="true" packaged="false">
-      <directory></directory>
-      <includes>
-        <include>project/**</include>
-      </includes>
-    </fileSet>
+  <fileSets>
+
+    <!--<fileSet encoding="UTF-8" filtered="true" packaged="false">-->
+      <!--<directory></directory>-->
+      <!--<includes>-->
+        <!--<include>project/**</include>-->
+      <!--</includes>-->
+    <!--</fileSet>-->
 
     <fileSet filtered="false" packaged="false">
       <directory></directory>

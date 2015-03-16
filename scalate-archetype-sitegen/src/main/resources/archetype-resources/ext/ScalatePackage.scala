@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2009-2011 the original author or authors.
+ * Copyright (C) 2009-2010 the original author or authors.
  * See the notice.md file distributed with this work for additional
  * information regarding copyright ownership.
  *
@@ -15,13 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import sbt._
 
-class Plugins(info: ProjectInfo) extends PluginDefinition(info) {
-  
-  lazy val fusesource_snapshot_repo = "FuseSource Snapshots" at
-           "http://repo.fusesource.com/nexus/content/repositories/snapshots"
+import org.fusesource.scalate.support.TemplatePackage
+import org.fusesource.scalate.{Binding, TemplateSource}
 
-  lazy val scalate_plugin = "org.fusesource.scalate" % "sbt-scalate-plugin" % "${project.version}"
 
+/**
+ * Defines the template package of reusable imports, attributes and methods across templates
+ */
+class ScalatePackage extends TemplatePackage {
+  def header(source: TemplateSource, bindings: List[Binding]) = """
+
+    // common imports go here
+
+                                                                """
 }
